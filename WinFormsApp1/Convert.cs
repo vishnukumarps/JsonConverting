@@ -31,7 +31,6 @@ namespace WinFormsApp1
             var dynamicObj = new ExpandoObject();
             try
             {
-          
                 var inputText = textBox1.Text;
                 string jsonString = JsonConvert.DeserializeObject(inputText).ToString().Trim();
                 var lWControls = JsonConvert.DeserializeObject<List<LWControl>>(inputText);
@@ -41,7 +40,6 @@ namespace WinFormsApp1
                 var outputDataList = new List<OutputData>();
                 var list = new List<Root>();
 
-
                 for (int row = 0; row <= numOfRows; row++)
                 {
                     var slectedRows = lWControlsSortedByRow.FindAll(x => x.R == row);
@@ -50,28 +48,19 @@ namespace WinFormsApp1
                     r1.type = "div";
                     r1.@class = "row mb-3";
 
-                    var children = new List<Child2>();
+                    var children = new List<Child>();
                     foreach (var col in slectedRows.OrderBy(y=>y.C).ToList())
                     {
-                        Child2 child = new Child2();
+                        Child child = new Child();
                         child.type = "div";
                         child.@class = "col-2";
                         children.Add(child);
-
-
-
                     }
                     r1.children = children;
                     list.Add(r1);
                 }
-
-
-
-
-                var x = list;
-               
+                var x = list;             
                 var json=JsonConvert.SerializeObject(list);
-
             }
             catch (Exception ex)
             {
@@ -81,21 +70,21 @@ namespace WinFormsApp1
         }
 
 
-        public class Child2
+        public class Child
         {
             public string type { get; set; }
            // public string label { get; set; }
            // public string placeHolder { get; set; }
             public string @class { get; set; }
             //public string labelPosition { get; set; }
-            public List<Child2> children { get; set; }
+            public List<Child> children { get; set; }
         }
 
         public class Root
         {
             public string type { get; set; }
             public string @class { get; set; }
-            public List<Child2> children { get; set; }
+            public List<Child> children { get; set; }
         }
 
         class OutputData
@@ -104,7 +93,7 @@ namespace WinFormsApp1
             public string Col { get; set; }
 
         }
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+       
         public class LWControl
         {
             public int C { get; set; }
