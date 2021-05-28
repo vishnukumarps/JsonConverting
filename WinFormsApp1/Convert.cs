@@ -41,25 +41,38 @@ namespace WinFormsApp1
 
                 var lWControlsSortedByRow = lWControls.OrderBy(x => x.R).ToList();
                 var numOfRows = lWControlsSortedByRow[lWControlsSortedByRow.Count - 1].R;
-                var list = new List<Root>();
+                var list = new List<Row>();
 
                 for (int row = 0; row <= numOfRows; row++)
                 {
                     var slectedRows = lWControlsSortedByRow.FindAll(x => x.R == row);
-
-                    Root r1 = new Root();
+                      
+                    Row r1 = new Row();
                     r1.type = "div";
                     r1.@class = "row mb-3";
 
-                    var children = new List<Child>();
+                    var columns = new List<Column>();
                     foreach (var col in slectedRows.OrderBy(y => y.C).ToList())
                     {
-                        Child child = new Child();
+                        Column child = new Column();
                         child.type = "div";
                         child.@class = "col-12 col-lg";
-                        children.Add(child);
+
+                        child.ControllType = new List<ControllType>()
+                        {
+                            new ControllType()
+                            {
+                                type=col.CT+"",
+                                style=col.S,
+                                
+                            }
+                        };
+                       
+                         columns.Add(child);
+
+                        
                     }
-                    r1.children = children;
+                    r1.columns = columns;
                     list.Add(r1);
                 }
                 var x = list;
@@ -67,30 +80,50 @@ namespace WinFormsApp1
             }
             catch (Exception ex)
             {
-                textBox1.Text = null;
-                textBox1.Text = inputText.Length+"";
+                textBox1.Text = "";
+                textBox1.Text = ex.Message;
             }
         }
 
-
-        public class Child
+        private dynamic recursiveFunction(LWControl col)
         {
-            public string type { get; set; }
-            // public string label { get; set; }
-            // public string placeHolder { get; set; }
-            public string @class { get; set; }
-            //public string labelPosition { get; set; }
-            public List<Child> children { get; set; }
+            return recursiveFunction(col);
+
         }
 
-        public class Root
+        public class ControllType
+        {
+
+            public string type { get; set; }
+            public string style { get; set; }
+            public string @class { get; set; }
+            public string name { get; set; }
+
+        }
+
+        public class Row
         {
             public string type { get; set; }
             public string @class { get; set; }
-            public List<Child> children { get; set; }
+            public List<Column> columns { get; set; }
         }
-
+        public class Column
+        {
    
+            public string type { get; set; }
+            public string @class { get; set; }
+           // public List<Column> columns { get; set; }
+            public List<ControllType> ControllType { get; set; }
+
+        }
+
+        public class Child2
+        {
+            public string type { get; set; }
+            public string @class { get; set; }
+            public string name { get; set; }
+            public string style { get; set; }
+        }
 
         public class LWControl
         {
@@ -143,7 +176,6 @@ namespace WinFormsApp1
         {
             string json = new WebClient().DownloadString("https://dev.cunextgen.com/ApprenderNew/api/values/default/B48A1D14-D4FE-4E41-8E8E-877BC595A01D");
             //string d = "formJSON";
-
             int startindex = json.IndexOf("form");
             int endindex = json.Length - startindex;
             string title = json.Substring(startindex, endindex);
