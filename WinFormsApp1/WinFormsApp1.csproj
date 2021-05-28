@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Models\Class2.cs" />
+    <Compile Include="Models\GrandParent.cs" />
   </ItemGroup>
 
   <ItemGroup>

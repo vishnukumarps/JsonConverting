@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Dynamic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,29 +16,30 @@ namespace WinFormsApp1
 {
     public partial class Convert : Form
     {
+        string  inputText=null;
         public Convert()
         {
             InitializeComponent();
+            textBox2.Text = "https://dev.cunextgen.com/ApprenderNew/api/values/default/B48A1D14-D4FE-4E41-8E8E-877BC595A01D";
         }
 
 
-        void FindChild(List<LWControl>slectedRows)
+        void FindChild(List<LWControl> slectedRows)
         {
-           
-           // slectedRows.f
+
+            // slectedRows.f
         }
         private void button1_Click(object sender, EventArgs e)
         {
             var dynamicObj = new ExpandoObject();
             try
             {
-                var inputText = textBox1.Text;
+                inputText= textBox1.Text;
                 string jsonString = JsonConvert.DeserializeObject(inputText).ToString().Trim();
                 var lWControls = JsonConvert.DeserializeObject<List<LWControl>>(inputText);
 
                 var lWControlsSortedByRow = lWControls.OrderBy(x => x.R).ToList();
                 var numOfRows = lWControlsSortedByRow[lWControlsSortedByRow.Count - 1].R;
-                var outputDataList = new List<OutputData>();
                 var list = new List<Root>();
 
                 for (int row = 0; row <= numOfRows; row++)
@@ -49,23 +51,23 @@ namespace WinFormsApp1
                     r1.@class = "row mb-3";
 
                     var children = new List<Child>();
-                    foreach (var col in slectedRows.OrderBy(y=>y.C).ToList())
+                    foreach (var col in slectedRows.OrderBy(y => y.C).ToList())
                     {
                         Child child = new Child();
                         child.type = "div";
-                        child.@class = "col-2";
+                        child.@class = "col-12 col-lg";
                         children.Add(child);
                     }
                     r1.children = children;
                     list.Add(r1);
                 }
-                var x = list;             
-                var json=JsonConvert.SerializeObject(list);
+                var x = list;
+                var json = JsonConvert.SerializeObject(list);
             }
             catch (Exception ex)
             {
-
-                throw;
+                textBox1.Text = null;
+                textBox1.Text = inputText.Length+"";
             }
         }
 
@@ -73,8 +75,8 @@ namespace WinFormsApp1
         public class Child
         {
             public string type { get; set; }
-           // public string label { get; set; }
-           // public string placeHolder { get; set; }
+            // public string label { get; set; }
+            // public string placeHolder { get; set; }
             public string @class { get; set; }
             //public string labelPosition { get; set; }
             public List<Child> children { get; set; }
@@ -87,13 +89,8 @@ namespace WinFormsApp1
             public List<Child> children { get; set; }
         }
 
-        class OutputData
-        {
-            public string Row { get; set; }
-            public string Col { get; set; }
+   
 
-        }
-       
         public class LWControl
         {
             public int C { get; set; }
@@ -141,7 +138,28 @@ namespace WinFormsApp1
             public string EE { get; set; }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var url = textBox2.Text;
 
+                HttpClient client = new HttpClient();
+                HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Get,
+                     url);
 
+                HttpResponseMessage resp = client.SendAsync(msg).Result;
+                string val = resp.Content.ReadAsStringAsync().Result;
+
+                List<GrandParent> data = JsonConvert.DeserializeObject<List<GrandParent>>(val);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
     }
 }
