@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Dynamic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -140,25 +141,13 @@ namespace WinFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var url = textBox2.Text;
+            string json = new WebClient().DownloadString("https://dev.cunextgen.com/ApprenderNew/api/values/default/B48A1D14-D4FE-4E41-8E8E-877BC595A01D");
+            //string d = "formJSON";
 
-                HttpClient client = new HttpClient();
-                HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Get,
-                     url);
-
-                HttpResponseMessage resp = client.SendAsync(msg).Result;
-                string val = resp.Content.ReadAsStringAsync().Result;
-
-                List<GrandParent> data = JsonConvert.DeserializeObject<List<GrandParent>>(val);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            int startindex = json.IndexOf("form");
+            int endindex = json.Length - startindex;
+            string title = json.Substring(startindex, endindex);
+            textBox1.Text = title;
 
         }
     }
