@@ -109,4 +109,31 @@ namespace AppFormsJsonParser.Models
         //[JsonProperty("selectedTemplate")]
         public object SelectedTemplate { get; set; }
     }
+
+
+     public class ControllType
+        {
+
+            public string type { get; set; }
+            public string style { get; set; }
+            public string @class { get; set; }
+            public string name { get; set; }
+
+        }
+
+        public class Row
+        {
+            public string type { get; set; }
+            public string @class { get; set; }
+            public List<Column> columns { get; set; }
+        }
+        public class Column
+        {
+   
+            public string type { get; set; }
+            public string @class { get; set; }
+           // public List<Column> columns { get; set; }
+            public List<ControllType> ControllType { get; set; }
+
+        }
 }
