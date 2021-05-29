@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using RestSharp;
 using WinFormsApp1.Models;
 
 namespace WinFormsApp1
@@ -32,57 +33,75 @@ namespace WinFormsApp1
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            var dynamicObj = new ExpandoObject();
             try
             {
-                inputText= textBox1.Text;
-                string jsonString = JsonConvert.DeserializeObject(inputText).ToString().Trim();
-                var lWControls = JsonConvert.DeserializeObject<List<LWControl>>(inputText);
+                var client = new RestClient("https://dev.cunextgen.com/ApprenderNew/api/values/default/B48A1D14-D4FE-4E41-8E8E-877BC595A01D");
+                client.Timeout = -1;
+                var request = new RestRequest(Method.GET);
+                IRestResponse response = client.Execute(request);
+                var parentJson = JsonConvert.DeserializeObject<ParentJson>(response.Content.ToString());
 
-                var lWControlsSortedByRow = lWControls.OrderBy(x => x.R).ToList();
-                var numOfRows = lWControlsSortedByRow[lWControlsSortedByRow.Count - 1].R;
-                var list = new List<Row>();
-
-                for (int row = 0; row <= numOfRows; row++)
-                {
-                    var slectedRows = lWControlsSortedByRow.FindAll(x => x.R == row);
-                      
-                    Row r1 = new Row();
-                    r1.type = "div";
-                    r1.@class = "row mb-3";
-
-                    var columns = new List<Column>();
-                    foreach (var col in slectedRows.OrderBy(y => y.C).ToList())
-                    {
-                        Column child = new Column();
-                        child.type = "div";
-                        child.@class = "col-12 col-lg";
-
-                        child.ControllType = new List<ControllType>()
-                        {
-                            new ControllType()
-                            {
-                                type=col.CT+"",
-                                style=col.S,
-                                
-                            }
-                        };
-                       
-                         columns.Add(child);
-
-                        
-                    }
-                    r1.columns = columns;
-                    list.Add(r1);
-                }
-                var x = list;
-                var json = JsonConvert.SerializeObject(list);
+               var formJson = JsonConvert.DeserializeObject<List<LWControl>>(parentJson.FormJson);
+                textBox1.Text = formJson.ToString();
+               // Console.WriteLine(unescapedJsonString);
             }
             catch (Exception ex)
             {
-                textBox1.Text = "";
+
                 textBox1.Text = ex.Message;
             }
+
+            //var dynamicObj = new ExpandoObject();
+            //try
+            //{
+            //    inputText= textBox1.Text;
+            //    string jsonString = JsonConvert.DeserializeObject(inputText).ToString().Trim();
+            //    var lWControls = JsonConvert.DeserializeObject<List<LWControl>>(inputText);
+
+            //    var lWControlsSortedByRow = lWControls.OrderBy(x => x.R).ToList();
+            //    var numOfRows = lWControlsSortedByRow[lWControlsSortedByRow.Count - 1].R;
+            //    var list = new List<Row>();
+
+            //    for (int row = 0; row <= numOfRows; row++)
+            //    {
+            //        var slectedRows = lWControlsSortedByRow.FindAll(x => x.R == row);
+                      
+            //        Row r1 = new Row();
+            //        r1.type = "div";
+            //        r1.@class = "row mb-3";
+
+            //        var columns = new List<Column>();
+            //        foreach (var col in slectedRows.OrderBy(y => y.C).ToList())
+            //        {
+            //            Column child = new Column();
+            //            child.type = "div";
+            //            child.@class = "col-12 col-lg";
+
+            //            child.ControllType = new List<ControllType>()
+            //            {
+            //                new ControllType()
+            //                {
+            //                    type=col.CT+"",
+            //                    style=col.S,
+                                
+            //                }
+            //            };
+                       
+            //             columns.Add(child);
+
+                        
+            //        }
+            //        r1.columns = columns;
+            //        list.Add(r1);
+            //    }
+            //    var x = list;
+            //    var json = JsonConvert.SerializeObject(list);
+            //}
+            //catch (Exception ex)
+            //{
+            //    textBox1.Text = "";
+            //    textBox1.Text = ex.Message;
+            //}
         }
 
         private dynamic recursiveFunction(LWControl col)
