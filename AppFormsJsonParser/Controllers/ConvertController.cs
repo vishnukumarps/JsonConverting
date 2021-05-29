@@ -96,7 +96,7 @@ namespace AppFormsJsonParser.Controllers
 
         [HttpGet]
         [Route("/GetJson")]
-        public string GetJson()
+        public List<Row> GetJson()
         {
             try
             {
@@ -120,7 +120,7 @@ namespace AppFormsJsonParser.Controllers
                         child.type = "div";
                         child.@class = "col-12 col-lg";
 
-                        child.ControllType = new List<ControllType>()
+                        child.Children = new List<ControllType>()
                         {
                             new ControllType()
                             {
@@ -131,15 +131,13 @@ namespace AppFormsJsonParser.Controllers
                         };
 
                         columns.Add(child);
-
-
                     }
-                    r1.columns = columns;
+                    r1.Children = columns;
                     list.Add(r1);
                 }
                 var x = list;
                 var json = JsonConvert.SerializeObject(list);
-                return json;
+                return list;
             }
             catch (Exception ex)
             {
