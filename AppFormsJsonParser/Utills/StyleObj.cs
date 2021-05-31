@@ -1,58 +1,706 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
-namespace AppFormsJsonParser.Utills
+namespace ClaySys.AppBuilder.Models
 {
-
-    public enum TextHorizondalAlignment
-    {
-
-    }
-
-    public enum TextVerticalAlignment
-    {
-
-    }
+    [Serializable, DataContract]
     public class StyleObj
     {
-        public bool Enable { get; private set; }
-        public string FontColor { get; private set; }
-        public int FontSize { get; private set; }
-        public double Height { get; private set; }
-        public string Margin { get; private set; }
-        public bool Visibility { get; private set; }
-        public double Width { get; private set; }
-        public object StyleArrayIndex { get; private set; }
-        public string Padding { get; private set; }
-        public string TextPadding { get; private set; }
-        public string ColumnWidth { get; private set; }
-        public bool Bold { get; private set; }
-        public int ColSpan { get; private set; }
-        public bool Italic { get; private set; }
-        public bool Underline { get; private set; }
-        public string BackGroundColor { get; private set; }
-        public TextHorizondalAlignment TextAllignment { get; private set; }
-        public TextVerticalAlignment TextVerAllignment { get; private set; }
-        public string TextFontSelected { get; private set; }
-        public bool ReadOnly { get; private set; }
-        public object Orientation { get; private set; }
-        public int TabIndex { get; private set; }
-        public string BorderColor { get; private set; }
-        public object FontFormat { get; private set; }
-        public string BoxShadow { get; private set; }
-        public object RowHeight { get; private set; }
-        public object HeaderHeight { get; private set; }
-        public string BorderRadius { get; private set; }
-        public string BorderThickness { get; private set; }
-        public string ProgressColor { get; private set; }
-        public string CornerRadius { get; private set; }
-        public string BorderStyle { get; private set; }
-        public string LineHeight { get; private set; }
+        /// <summary>
+        /// Contains Style properties of a control 
+        /// </summary>
+        public enum StyleArrayIndex
+        {
+            Enable = 0,
+            FontColor = 1,
+            FontSize = 2,
+            Height = 3,
+            Margin = 4,
+            Visibility = 5,
+            Width = 6,
+            BackGroundColor = 7,
+            TextAllignment = 8,
+            TextFontSelected = 9,
+            ReadOnly = 10,
+            Orientation = 11,
+            TabIndex = 12,
+            FontFormat = 13,
+            IsLocked = 14,
+            TextVerAllignment = 15,
+            Bold = 16,
+            Italic = 17,
+            Underline = 18,
+            ColumnWidth = 19,
+            ColSpan = 20,
+            BorderColor = 21,
+            BoxShadow = 22,
+            Padding = 23,
+            TextPadding=24,
+            BorderRadius=25,
+            BorderThickness=26,
+            BorderStyle=27,
+            LineHeight=28,
+            ProgressColor=29,
+            RowHeight = 30,
+            HeaderHeight = 31,
+            CornerRadius = 32
+        }
+
+        private bool _readOnly;
+        [DataMember]
+        public bool ReadOnly
+        {
+            get
+            {
+                return _readOnly;
+            }
+            set
+            {
+                _readOnly = value;
+            }
+        }
+        [DataMember]
+     //   public ControlClass ParentCtrlClass { get; set; }
+
+        private List<string> _TextFont;
+        [DataMember]
+        public List<string> TextFont
+        {
+            get
+            {
+                if (this._TextFont != null)
+                {
+                    _TextFont = new List<string>();
+                }
+                return _TextFont;
+            }
+            set
+            {
+                _TextFont = value;
+            }
+        }
+
+        private bool _visibility;
+        [DataMember]
+        public bool Visibility
+        {
+            get
+            {
+                return _visibility;
+            }
+            set
+            {
+                _visibility = value;
+            }
+        }
+
+        private bool _enable;
+        [DataMember]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                //if (!paused && IsLocked)
+                // return;
+
+                //if (this.ParentCtrlClass != null && this.ParentCtrlClass.Security != null)
+                //{
+                //    if (this.ParentCtrlClass.Security.Update)
+                //    {
+                //        _enable = value;
+
+                //    }
+                //    else
+                //    {
+                //        _enable = false;
+                //    }
+                
+               
+                
+                    _enable = value;
+                
+
+            }
+        }
+        private int rowHeight;
+        [DataMember]
+        public int RowHeight
+        {
+            get { return rowHeight; }
+            set { rowHeight = value; }
+        }
+        private int headerHeight;
+        [DataMember]
+        public int HeaderHeight
+        {
+            get { return headerHeight; }
+            set { headerHeight = value; }
+        }
 
 
-        public  StyleObj ToStyle(string values)
+        private TextHorizondalAlignment _textAllignment;
+        [DataMember]
+        public TextHorizondalAlignment TextAllignment
+        {
+            get
+            {
+                return _textAllignment;
+            }
+            set
+            {
+                _textAllignment = value;
+            }
+        }
+
+        private bool _bold;
+        [DataMember]
+        public bool Bold
+        {
+            get
+            {
+                return _bold;
+            }
+            set
+            {
+                _bold = value;
+
+            }
+        }
+
+        private bool _italic;
+        [DataMember]
+        public bool Italic
+        {
+            get
+            {
+                return _italic;
+            }
+            set
+            {
+                _italic = value;
+
+            }
+        }
+
+        string _padding;
+        [DataMember]
+        public string Padding
+        {
+            get
+            {
+                return _padding;
+            }
+            set { _padding = value; }
+        }
+        //For CheckBox and RadioButton, property 'item.Style.TextPadding' is used for setting Padding 
+        //And 'item.Style.Padding' is used for setting TextPadding (This is to avoid Backward Compatibility Issues)
+        string _textPadding;
+        [DataMember]
+        public string TextPadding
+        {
+            get
+            {
+                return _textPadding;
+            }
+            set { _textPadding = value; }
+        }
+
+        private bool _undeline;
+        [DataMember]
+        public bool Underline
+        {
+            get
+            {
+                return _undeline;
+            }
+            set
+            {
+                _undeline = value;
+
+            }
+        }
+
+        private TextVerticalAlignment _textVerAllignment;
+        [DataMember]
+        public TextVerticalAlignment TextVerAllignment
+        {
+            get
+            {
+                return _textVerAllignment;
+            }
+            set
+            {
+                _textVerAllignment = value;
+            }
+        }
+
+        private ControlOrientation _orientation;
+
+        [DataMember]
+        public ControlOrientation Orientation
+        {
+            get
+            {
+                return _orientation;
+            }
+            set
+            {
+                _orientation = value;
+            }
+        }
+
+
+        private int _tabIndex;
+
+        [DataMember]
+        public int TabIndex
+        {
+            get
+            {
+                return _tabIndex;
+            }
+            set
+            {
+                _tabIndex = value;
+            }
+        }
+
+
+
+        private double _fontsize;
+        [DataMember]
+        public double FontSize
+        {
+            get
+            {
+                return _fontsize;      //(_fontsize / 90 * 100) - 1;
+            }
+            set
+            {
+                _fontsize = value;
+            }
+        }
+
+        private string _fontWeight;
+        [DataMember]
+        [JsonProperty(Order = 2)]
+        public string FontWeight
+        {
+            get
+            {
+                return _fontWeight;
+            }
+            set
+            {
+                _fontWeight = value;
+            }
+        }
+
+        private string _fontStyle;
+        [DataMember]
+        public string FontStyle
+        {
+            get
+            {
+                return _fontStyle;
+            }
+            set
+            {
+                _fontStyle = value;
+            }
+        }
+
+        private FontType _fontFormat;
+        [DataMember]
+        [JsonProperty(Order = 1)]
+        public FontType FontFormat
+        {
+            get
+            {
+                return _fontFormat;
+            }
+            set
+            {
+                _fontFormat = value;
+                ManageFontFormat(value);
+            }
+        }
+
+        private void ManageFontFormat(FontType Type)
+        {
+            switch (Type)
+            {
+                case FontType.Normal:
+                    FontWeight = "Normal";
+                    FontStyle = "Normal";
+                    break;
+                case FontType.Bold:
+                    FontWeight = "Bold";
+                    FontStyle = "Normal";
+                    break;
+                case FontType.Italics:
+                    FontWeight = "Normal";
+                    FontStyle = "Italic";
+                    break;
+                case FontType.BoldItalics:
+                    FontWeight = "Bold";
+                    FontStyle = "Italic";
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+
+
+        double _width;
+        [DataMember]
+        public double Width
+        {
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                _width = value;
+            }
+        }
+
+        double _height;
+        [DataMember]
+        public double Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+            }
+        }
+
+        string _margin;
+        [DataMember]
+        public string Margin
+        {
+            get { return _margin; }
+            set { _margin = value; }
+        }
+
+        private string _fontcolor;
+        [DataMember]
+        public string FontColor
+        {
+            get
+            {
+                return _fontcolor;
+            }
+            set
+            {
+                if (value.Contains("#") && value.Length > 7)
+                {
+                    value = "#" + value.Substring(3);
+                }
+                _fontcolor = value;
+            }
+        }
+
+        private string _backGroundColor;
+        [DataMember]
+        public string BackGroundColor
+        {
+            get
+            {
+                return _backGroundColor;
+            }
+            set
+            {
+                if (value.Contains("#") && value.Length >= 9 && !value.Contains(";"))
+                {
+                    value = "#" + value.Substring(3);
+                }
+                _backGroundColor = value;
+            }
+        }
+        private string _textFontSelected;
+        [DataMember]
+        public string TextFontSelected
+        {
+            get
+            {
+                return _textFontSelected;
+            }
+            set
+            {
+                _textFontSelected = value;
+            }
+        }
+
+        private string _borderColor;
+        [DataMember]
+        public string BorderColor
+        {
+            get
+            {
+                return _borderColor;
+            }
+            set
+            {
+                if (value != null && value.Contains("#") && value.Length > 7)
+                {
+                    value = "#" + value.Substring(3);
+                }
+                _borderColor = value;
+            }
+        }
+
+
+        private string _boxShadow;
+        [DataMember]
+        public string BoxShadow
+        {
+            get
+            {
+                return _boxShadow;
+            }
+            set
+            {
+                //if (value != null && value.Contains("#"))
+                //{
+                //    value = "#" + value.Substring(3);
+                //}
+                _boxShadow = value;
+
+            }
+        }
+        private bool _isLocked;
+        [DataMember]
+        public bool IsLocked
+        {
+            get
+            {
+                return _isLocked;
+            }
+            set
+            {
+                _isLocked = value;
+            }
+        }
+        private string _columnWidth;
+
+        [DataMember]
+        public string ColumnWidth
+        {
+            get
+            {
+                return _columnWidth;
+            }
+            set
+            {
+                _columnWidth = value;
+
+            }
+        }
+
+        private int _colSpan;
+
+        public int ColSpan
+        {
+            get
+            {
+                return _colSpan;
+            }
+            set
+            {
+                _colSpan = value;
+
+            }
+        }
+
+        private string _borderRadius;
+        [DataMember]
+        public string BorderRadius
+        {
+            get
+            {
+                return _borderRadius;
+            }
+            set
+            {
+                _borderRadius = value;
+            }
+        }
+        private string _cornerRadius;
+        [DataMember]
+        public string CornerRadius
+        {
+            get
+            {
+                return _cornerRadius;
+            }
+            set
+            {
+                _cornerRadius = value;
+            }
+        }
+
+        private string _borderThickness;
+        [DataMember]
+        public string BorderThickness
+        {
+            get
+            {
+                return _borderThickness;
+            }
+            set
+            {
+                _borderThickness = value;
+            }
+        }
+
+
+        private string _borderStyle;
+        [DataMember]
+        public string BorderStyle
+        {
+            get
+            {
+                return _borderStyle;
+            }
+            set
+            {
+                _borderStyle = value;
+            }
+        }
+
+        private string _lineHeight;
+        [DataMember]
+        public string LineHeight
+        {
+            get
+            {
+                return _lineHeight;
+            }
+            set
+            {
+                _lineHeight = value;
+            }
+        }
+
+        private string _progressColor;
+        [DataMember]
+        public string ProgressColor
+        {
+            get
+            {
+                return _progressColor;
+            }
+            set
+            {
+                _progressColor = value;
+            }
+        }
+
+        public StyleObj()
+        {
+            this.Visibility = true;
+            this.Enable = true;
+            this.FontSize = 10;
+            this.FontColor = "Black";
+            this.FontFormat = FontType.Normal;
+            this.Width = 100;
+            this.Height = 23;
+            this.Margin = "0,0,0,0";
+            this.Padding = "0,0,0,0";
+            this.TextPadding = "0,0,0,0";
+            this.BackGroundColor = "White";
+            this.TextAllignment = TextHorizondalAlignment.Left;
+            this.TextVerAllignment = TextVerticalAlignment.Top;
+            this.Orientation = ControlOrientation.Vertical;
+            TextFont = new List<string>();
+            TextFontSelected = string.Empty;
+            this.ReadOnly = false;
+            this.TabIndex = 0;
+            this.Bold = false;
+            this.Italic = false;
+            this.Underline = false;
+            this.ColSpan = 1;
+            this.Padding = string.Empty;
+            this.TextPadding = string.Empty;
+            this.BorderRadius = "0,0,0,0";
+            this.BorderThickness = "0,0,0,0";
+            this.BorderStyle = string.Empty;
+            this.LineHeight = string.Empty;
+            this.ProgressColor = string.Empty;
+            this.CornerRadius = "3";
+
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sbValue = new StringBuilder();
+
+            sbValue.Append(Enable == true ? 1 : 0);
+            sbValue.Append("*#");
+            sbValue.Append(FontColor);
+            sbValue.Append("*#");
+            sbValue.Append(FontSize);
+            sbValue.Append("*#");
+            sbValue.Append(Height);
+            sbValue.Append("*#");
+            sbValue.Append(Margin);
+            sbValue.Append("*#");
+            sbValue.Append(Visibility == true ? 1 : 0);
+            sbValue.Append("*#");
+            sbValue.Append(Width);
+            sbValue.Append("*#");
+            sbValue.Append(BackGroundColor);
+            sbValue.Append("*#");
+            sbValue.Append(((int)TextAllignment).ToString());
+            sbValue.Append("*#");
+            sbValue.Append(TextFontSelected);
+            sbValue.Append("*#");
+            sbValue.Append(ReadOnly);
+            sbValue.Append("*#");
+            sbValue.Append(((int)Orientation).ToString());
+            sbValue.Append("*#");
+            sbValue.Append(TabIndex);
+            sbValue.Append("*#");
+            sbValue.Append((int)FontFormat).ToString();
+            sbValue.Append("*#");
+            sbValue.Append(IsLocked == true ? 1 : 0);
+            sbValue.Append("*#");
+            sbValue.Append(BorderColor);
+            sbValue.Append("*#");
+            sbValue.Append(Padding);
+            sbValue.Append("*#");
+            sbValue.Append(TextPadding);
+            sbValue.Append("*#");
+            sbValue.Append(BorderRadius);
+            sbValue.Append("*#");
+            sbValue.Append(BorderThickness);
+            sbValue.Append("*#");
+            sbValue.Append(BorderStyle);
+            sbValue.Append("*#");
+            sbValue.Append(LineHeight);
+            sbValue.Append("*#");
+            sbValue.Append(ProgressColor);
+            sbValue.Append("*#");
+            sbValue.Append(BoxShadow);
+            return sbValue.ToString();
+        }
+
+        public static StyleObj ToStyle(string values)
         {
             StyleObj obj = new StyleObj();
 
@@ -184,7 +832,24 @@ namespace AppFormsJsonParser.Utills
             return obj;
         }
 
+       public enum TextHorizondalAlignment
+        {
+            Left
+        }
+       public enum TextVerticalAlignment
+        {
+            Top
+        }
+       public enum ControlOrientation
+        {
+            Vertical
+        }
+       public enum FontType
+        {
+            Normal,
+            Bold,
+            Italics,
+            BoldItalics
+        }
     }
-
-    
 }

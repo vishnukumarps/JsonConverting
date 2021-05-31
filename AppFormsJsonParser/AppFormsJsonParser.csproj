@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -8,7 +8,6 @@
     <Compile Remove="Utills\ControlClass.cs" />
     <Compile Remove="Utills\ConvertClass.cs" />
     <Compile Remove="Utills\LWControl.cs" />
-    <Compile Remove="Utills\StyleObj.cs" />
   </ItemGroup>
 
   <ItemGroup>

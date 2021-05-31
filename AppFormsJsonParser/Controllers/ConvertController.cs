@@ -1,5 +1,6 @@
 ﻿using AppFormsJsonParser.Models;
 using AppFormsJsonParser.Utills;
+using ClaySys.AppBuilder.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
@@ -99,7 +100,7 @@ namespace AppFormsJsonParser.Controllers
                           {
                             new ControllType()
                             {
-                               type =Enum.GetName(typeof(ControlTypes), col.CT),
+                               type =Enum.GetName(typeof(ControlTypes), col.CT).ToLower(),
                                  style =col.S,
 
                             }
@@ -121,9 +122,26 @@ namespace AppFormsJsonParser.Controllers
             return null;
         }
 
+        [HttpGet]
+        [Route("/Hai")]
+        public StyleObj Haii()
+        {
+            try
+            {
+                StyleObj styleObj = new StyleObj();
+                var x = StyleObj.ToStyle("1*#Black*#11*#23*#0*#1*#150*#White*#0*#Verdana*#false*#0*#0*#0*#*#0*#0*#0*#0*#13*#1*#*#*#0*#*#*#*#*#*#*#*#*#");
+                return x ;
+            }
+            catch (Exception ex)
+            {
 
-
+                throw;
+            }
+            return null;
+        }
 
 
     }
+
+   
 }

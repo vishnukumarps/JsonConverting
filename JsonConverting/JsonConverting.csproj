@@ -3,7 +3,16 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <StartupObject>JsonConverting.Models.Program2</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\ControlClass.cs" />
+    <Compile Remove="Models\ConvertClass.cs" />
+    <Compile Remove="MyClass.cs" />
+    <Compile Remove="Program.cs" />
+    <Compile Remove="Tree.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
