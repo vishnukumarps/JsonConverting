@@ -7,6 +7,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -89,21 +90,23 @@ namespace AppFormsJsonParser.Controllers
                     {
                         Column child = new Column();
                         child.type = "div";
-                        child.@class = "col-12 col-lg";
+                      
                         if (col.CT == 15)
                         {
-                            child.style = col.S;
+                            child.@class = "col-12";
+                            child.style =GetDecodedStyle(col.S);
                         }
                         else
                         {
+                            child.@class = "col-12 col-lg";
                             child.Children = new List<ControllType>()
                           {
                             new ControllType()
                             {
                                type =Enum.GetName(typeof(ControlTypes), col.CT).ToLower(),
-                                 style =col.S,
+                                style =GetDecodedStyle(col.S)
 
-                            }
+                        }
                           };
                         }
                         columns.Add(child);
@@ -140,8 +143,44 @@ namespace AppFormsJsonParser.Controllers
             return null;
         }
 
+        private string  GetDecodedStyle(string encodedStyle)
+        {
+            StringBuilder sb = new StringBuilder(); 
+            try
+            {
+                StyleObj styleObj = new StyleObj();
+                var styleObject = StyleObj.ToStyle("1*#Black*#11*#23*#0*#1*#150*#White*#0*#Verdana*#false*#0*#0*#0*#*#0*#0*#0*#0*#13*#1*#*#*#0*#*#*#*#*#*#*#*#*#");
+                
+                sb.Append("width");
+                sb.Append(":");
+                sb.Append(styleObject.Width+"px");
+                sb.Append(";");
 
+
+                sb.Append("height");
+                sb.Append(":");
+                sb.Append(styleObject.Height+"px");
+                sb.Append(";");
+
+
+
+
+
+
+
+
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return null;
+        }
     }
 
+    
    
 }
