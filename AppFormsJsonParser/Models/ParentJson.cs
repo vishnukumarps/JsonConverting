@@ -132,8 +132,8 @@ namespace AppFormsJsonParser.Models
    
             public string type { get; set; }
             public string @class { get; set; }
-           // public List<Column> columns { get; set; }
-            public List<ControllType> Children { get; set; }
+            public string style { get; set; }
+             public List<ControllType> Children { get; set; }
 
         }
 }
