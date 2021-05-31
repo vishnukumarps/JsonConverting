@@ -123,8 +123,8 @@ namespace AppFormsJsonParser.Controllers
         }
 
         [HttpGet]
-        [Route("/Hai")]
-        public StyleObj Haii()
+        [Route("/DecodeStyle")]
+        public StyleObj DecodeStyle()
         {
             try
             {
