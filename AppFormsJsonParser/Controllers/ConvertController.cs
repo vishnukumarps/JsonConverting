@@ -18,6 +18,29 @@ namespace AppFormsJsonParser.Controllers
     [ApiController]
     public class ConvertController : ControllerBase
     {
+        [HttpGet]
+        [Route("/GetFormJsonFromByUrl")]
+        public List<LWControl> GetFormJsonFromByUrl(string url)
+        {
+            try
+            {
+                var client = new RestClient(url);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.GET);
+                IRestResponse response = client.Execute(request);
+                var parentJson = JsonConvert.DeserializeObject<ParentJson>(response.Content.ToString());
+
+                var formJson = JsonConvert.DeserializeObject<List<LWControl>>(parentJson.FormJson);
+                // Console.WriteLine(unescapedJsonString);
+                return formJson;
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+            return null;
+        }
 
         [HttpGet]
         [Route("/GetFormJsonFromUrl")]
@@ -90,29 +113,28 @@ namespace AppFormsJsonParser.Controllers
                     {
                         Column child = new Column();
                         child.type = "div";
-                      
+
                         if (col.CT == 15)
                         {
-                            child.@class = "col-12";
-                            child.style =GetDecodedStyle(col.S);
+                            child.@class = "col-12 d-none d-lg-flex";
+                            child.style = GetDecodedStyle(col.S);
                         }
                         else
                         {
                             child.@class = "col-12 col-lg";
                             child.Children = new List<ControllType>()
-                          {
-                            new ControllType()
                             {
-                               type =Enum.GetName(typeof(ControlTypes), col.CT).ToLower(),
-                                inputstyle =GetDecodedStyle(col.S),
+                              new ControllType()
+                              {
+                                type =Enum.GetName(typeof(ControlTypes), col.CT).ToLower(),
+                                inputStyle =GetDecodedStyle(col.S),
                                 labelstyle=( col.L!=null)? GetDecodedStyle(col.L) :"",
-                           }
-
-
-                          };
+                              }
+                            };
                         }
                         columns.Add(child);
                     }
+                    
                     r1.Children = columns;
                     list.Add(r1);
                 }
@@ -135,7 +157,7 @@ namespace AppFormsJsonParser.Controllers
             {
                 StyleObj styleObj = new StyleObj();
                 var x = StyleObj.ToStyle("1*#Black*#11*#23*#0*#1*#150*#White*#0*#Verdana*#false*#0*#0*#0*#*#0*#0*#0*#0*#13*#1*#*#*#0*#*#*#*#*#*#*#*#*#");
-                return x ;
+                return x;
             }
             catch (Exception ex)
             {
@@ -145,23 +167,23 @@ namespace AppFormsJsonParser.Controllers
             return null;
         }
 
-        private string  GetDecodedStyle(string encodedStyle)
+        private string GetDecodedStyle(string encodedStyle)
         {
-            StringBuilder sb = new StringBuilder(); 
+            StringBuilder sb = new StringBuilder();
             try
             {
                 StyleObj styleObj = new StyleObj();
                 var styleObject = StyleObj.ToStyle(encodedStyle);
-                
+
                 sb.Append(nameof(styleObj.Width).ToLower());
                 sb.Append(":");
-                sb.Append(styleObject.Width+"px");
+                sb.Append(styleObject.Width + "px");
                 sb.Append(";");
 
 
                 sb.Append(nameof(styleObj.Height).ToLower());
                 sb.Append(":");
-                sb.Append(styleObject.Height+"px");
+                sb.Append(styleObject.Height + "px");
                 sb.Append(";");
 
 
@@ -185,6 +207,6 @@ namespace AppFormsJsonParser.Controllers
         }
     }
 
-    
-   
+
+
 }
