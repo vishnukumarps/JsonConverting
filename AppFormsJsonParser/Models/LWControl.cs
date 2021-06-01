@@ -7,6 +7,8 @@ namespace AppFormsJsonParser.Models
 {
     public class LWControl
     {
+
+        public string V{ get; set; }
         public int C { get; set; }
         public int CT { get; set; }
         public int I { get; set; }

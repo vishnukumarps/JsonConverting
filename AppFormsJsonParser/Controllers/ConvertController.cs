@@ -113,7 +113,7 @@ namespace AppFormsJsonParser.Controllers
                     {
                         Column child = new Column();
                         child.type = "div";
-
+                        child.label = col.V;
                         if (col.CT == 15)
                         {
                             child.@class = "col-12 d-none d-lg-flex";
@@ -186,6 +186,17 @@ namespace AppFormsJsonParser.Controllers
                 sb.Append(styleObject.Height + "px");
                 sb.Append(";");
 
+
+                sb.Append(nameof(styleObj.TextFont).ToLower());
+                sb.Append(":");
+                sb.Append(styleObject.TextFont);
+                sb.Append(";");
+
+
+                sb.Append(nameof(styleObj.TextFontSelected).ToLower());
+                sb.Append(":");
+                sb.Append(styleObject.TextFontSelected);
+                sb.Append(";");
 
 
 

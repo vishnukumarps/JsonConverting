@@ -130,7 +130,7 @@ namespace AppFormsJsonParser.Models
     }
     public class Column
     {
-
+        public string label { get; set; }
         public string type { get; set; }
         public string @class { get; set; }
         public string style { get; set; }
