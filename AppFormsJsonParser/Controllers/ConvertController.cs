@@ -151,19 +151,19 @@ namespace AppFormsJsonParser.Controllers
                 StyleObj styleObj = new StyleObj();
                 var styleObject = StyleObj.ToStyle("1*#Black*#11*#23*#0*#1*#150*#White*#0*#Verdana*#false*#0*#0*#0*#*#0*#0*#0*#0*#13*#1*#*#*#0*#*#*#*#*#*#*#*#*#");
                 
-                sb.Append("width");
+                sb.Append(nameof(styleObj.Width).ToLower());
                 sb.Append(":");
                 sb.Append(styleObject.Width+"px");
                 sb.Append(";");
 
 
-                sb.Append("height");
+                sb.Append(nameof(styleObj.Height).ToLower());
                 sb.Append(":");
                 sb.Append(styleObject.Height+"px");
                 sb.Append(";");
 
 
-
+                // TO DO
 
 
 
