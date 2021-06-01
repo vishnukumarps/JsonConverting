@@ -70,7 +70,7 @@ namespace AppFormsJsonParser.Controllers
         {
             try
             {
-                var client = new RestClient("https://dev.cunextgen.com/ApprenderNew/api/values/default/B48A1D14-D4FE-4E41-8E8E-877BC595A01D");
+                var client = new RestClient("https://dev.cunextgen.com/ApprenderNew/api/values/default/FAB15FB4-EBD3-4904-95AD-CE6BFA61070D");
                 client.Timeout = -1;
                 var request = new RestRequest(Method.GET);
                 IRestResponse response = client.Execute(request);
@@ -128,7 +128,7 @@ namespace AppFormsJsonParser.Controllers
                               {
                                 type =Enum.GetName(typeof(ControlTypes), col.CT).ToLower(),
                                 inputStyle =GetDecodedStyle(col.S),
-                                labelstyle=( col.L!=null)? GetDecodedStyle(col.L) :"",
+                                labelStyle=( col.L!=null)? GetDecodedStyle(col.L) :"",
                               }
                             };
                         }

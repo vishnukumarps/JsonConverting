@@ -119,7 +119,7 @@ namespace AppFormsJsonParser.Models
         public string inputStyle { get; set; }
         public string @class { get; set; }
         public string name { get; set; }
-        public string labelstyle{ get; set; }
+        public string labelStyle{ get; set; }
     }
 
     public class Row
