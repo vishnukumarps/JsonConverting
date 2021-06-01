@@ -112,29 +112,30 @@ namespace AppFormsJsonParser.Models
     }
 
 
-     public class ControllType
-        {
+    public class ControllType
+    {
 
-            public string type { get; set; }
-            public string style { get; set; }
-            public string @class { get; set; }
-            public string name { get; set; }
+        public string type { get; set; }
+        public string inputstyle { get; set; }
+        public string @class { get; set; }
+        public string name { get; set; }
+        public string labelstyle{ get; set; }
+    }
 
-        }
+    public class Row
+    {
+        public string type { get; set; }
+        public string @class { get; set; }
+        public List<Column> Children { get; set; }
+    }
+    public class Column
+    {
 
-        public class Row
-        {
-            public string type { get; set; }
-            public string @class { get; set; }
-            public List<Column> Children { get; set; }
-        }
-        public class Column
-        {
-   
-            public string type { get; set; }
-            public string @class { get; set; }
-            public string style { get; set; }
-             public List<ControllType> Children { get; set; }
+        public string type { get; set; }
+        public string @class { get; set; }
+        public string style { get; set; }
+        public string inputstyle { get; set; }
+        public List<ControllType> Children { get; set; }
 
-        }
+    }
 }

@@ -104,9 +104,11 @@ namespace AppFormsJsonParser.Controllers
                             new ControllType()
                             {
                                type =Enum.GetName(typeof(ControlTypes), col.CT).ToLower(),
-                                style =GetDecodedStyle(col.S)
+                                inputstyle =GetDecodedStyle(col.S),
+                                labelstyle=( col.L!=null)? GetDecodedStyle(col.L) :"",
+                           }
 
-                        }
+
                           };
                         }
                         columns.Add(child);
