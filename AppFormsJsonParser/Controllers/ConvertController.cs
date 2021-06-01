@@ -149,7 +149,7 @@ namespace AppFormsJsonParser.Controllers
             try
             {
                 StyleObj styleObj = new StyleObj();
-                var styleObject = StyleObj.ToStyle("1*#Black*#11*#23*#0*#1*#150*#White*#0*#Verdana*#false*#0*#0*#0*#*#0*#0*#0*#0*#13*#1*#*#*#0*#*#*#*#*#*#*#*#*#");
+                var styleObject = StyleObj.ToStyle(encodedStyle);
                 
                 sb.Append(nameof(styleObj.Width).ToLower());
                 sb.Append(":");
